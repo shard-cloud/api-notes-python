@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: notes-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: noteuser
+      POSTGRES_PASSWORD: notepass
+      POSTGRES_DB: notes_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noteuser -d notes_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: notes-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE: postgresql://noteuser:notepass@db:5432/notes_db
+      PORT: 80
+      SECRET_KEY: your-secret-key-change-in-production
+    ports:
+      - "80:80"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'python -c "import requests; requests.get(''http://localhost:80/health'')"',
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  postgres_data:

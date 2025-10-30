@@ -1,0 +1,7 @@
+DISPLAY_NAME=Notes API
+ENTRYPOINT=src/main.py
+MEMORY=1024
+VERSION=recommended
+SUBDOMAIN=notes-api
+START=pip install -r requirements.txt && python src/main.py
+DESCRIPTION=API REST para gerenciamento de notas com FastAPI e PostgreSQL
