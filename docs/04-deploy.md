@@ -19,11 +19,11 @@ Crie um arquivo `.shardcloud` na raiz do projeto:
 
 ```bash
 DISPLAY_NAME=Notes API
-ENTRYPOINT=src/main.py
+MAIN=src/main.py
 MEMORY=1024
 VERSION=recommended
 SUBDOMAIN=notes-api
-START=pip install -r requirements.txt && python src/main.py
+CUSTOM_COMMAND=pip install -r requirements.txt && python src/main.py
 DESCRIPTION=API REST para gerenciamento de notas com FastAPI e PostgreSQL
 ```
 
@@ -76,14 +76,17 @@ curl http://localhost/docs
 ### Método 1: Upload direto (Recomendado)
 
 1. **Acesse o Dashboard**
+
    - Vá para [Shard Cloud Dashboard](https://shardcloud.app/dash)
    - Faça login na sua conta
 
 2. **Criar nova aplicação**
+
    - Clique em **"New app"**
    - Selecione **"Upload"**
 
 3. **Preparar arquivos**
+
    - Zip toda a pasta do projeto (incluindo `.shardcloud`)
    - Certifique-se de que o `requirements.txt` está incluído
 
@@ -95,11 +98,13 @@ curl http://localhost/docs
 ### Método 2: Deploy via Git
 
 1. **Conectar repositório**
+
    - No dashboard, clique em **"New app"**
    - Selecione **"Git Repository"**
    - Conecte seu repositório GitHub/GitLab
 
 2. **Configurar build**
+
    - **Build command:** `pip install -r requirements.txt`
    - **Start command:** `python src/main.py`
    - **Python version:** `3.11` (recomendado)
@@ -113,12 +118,14 @@ curl http://localhost/docs
 ### Usar PostgreSQL da Shard Cloud
 
 1. **Criar banco**
+
    - Vá para [Databases Dashboard](https://shardcloud.app/dash/databases)
    - Clique em **"New Database"**
    - Selecione **PostgreSQL**
    - Escolha a quantidade de RAM
 
 2. **Configurar conexão**
+
    - Copie a string de conexão do dashboard
    - Configure como variável `DATABASE` na aplicação
    - Exemplo: `postgres://user:pass@host:port/db?ssl=true`
@@ -150,6 +157,7 @@ Sua aplicação ficará disponível em: `https://minha-api.shardweb.app`
 ### Domínio personalizado
 
 1. **Configurar DNS**
+
    - Adicione um registro CNAME apontando para `notes-api.shardweb.app`
    - Ou configure A record com o IP fornecido
 
@@ -227,26 +235,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-      
+          python-version: "3.11"
+
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
+
       - name: Deploy to Shard Cloud
         run: |
           # Zip project
           zip -r deploy.zip . -x "*.git*" "__pycache__/*" "*.pyc"
-          
+
           # Upload to Shard Cloud (configure API token)
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.SHARD_TOKEN }}" \
@@ -304,7 +312,7 @@ pip check
 
 ## 🎉 Sucesso!
 
-Sua API está no ar na Shard Cloud! 
+Sua API está no ar na Shard Cloud!
 
 ### Próximos passos:
 
