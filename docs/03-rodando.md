@@ -1,5 +1,3 @@
-# Rodando o Projeto
-
 ## 🚀 Desenvolvimento Local
 
 ### Pré-requisitos

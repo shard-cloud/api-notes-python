@@ -1,5 +1,3 @@
-# Introdução
-
 ## 📖 O que é este template?
 
 API REST completa para gerenciamento de notas pessoais construída com **FastAPI**, **SQLAlchemy**, **Alembic** e **PostgreSQL**. Inclui autenticação por token JWT, CRUD completo, busca e paginação.

@@ -1,5 +1,3 @@
-# Configuração
-
 ## 🔐 Variáveis de Ambiente OBRIGATÓRIAS
 
 **IMPORTANTE**: As variáveis marcadas como **(OBRIGATÓRIO)** são essenciais. A aplicação não funcionará sem elas.
