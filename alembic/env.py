@@ -34,7 +34,8 @@ target_metadata = Base.metadata
 
 def get_url():
     """Get database URL from settings"""
-    return settings.database_url
+    from src.database import convert_database_url
+    return convert_database_url(settings.database)
 
 
 def run_migrations_offline() -> None:
@@ -73,10 +74,11 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
-
-    connectable = async_engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
+    from sqlalchemy.ext.asyncio import create_async_engine
+    
+    # Use settings database URL instead of alembic.ini
+    connectable = create_async_engine(
+        get_url(),
         poolclass=pool.NullPool,
     )
 
